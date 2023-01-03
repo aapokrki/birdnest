@@ -1,0 +1,8 @@
+{
+  "/drones/*": {
+    "target": "https://assignments.reaktor.com/birdnest",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}
