@@ -1,4 +1,4 @@
-<div [ngClass]="{ inArea: isInArea() }" class="drone">
+<div>
   <h3>{{ drone.serialNumber }}</h3>
-  <p>{{ drone.positionY }}, {{ drone.positionX }}</p>
+  <p>{{ getDistance() }} meters from the nest</p>
 </div>

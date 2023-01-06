@@ -1,2 +1,5 @@
 <p>drones work!</p>
-<app-drone *ngFor="let drone of droneList" [drone]="drone"></app-drone>
+<div class="report in-area" *ngFor="let drone of droneList">
+  <app-drone [drone]="drone"></app-drone>
+  <app-pilot [drone]="drone"></app-pilot>
+</div>

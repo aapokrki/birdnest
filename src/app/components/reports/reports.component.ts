@@ -11,22 +11,26 @@ import { Report } from 'src/app/Report'
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.css'],
 })
-export class ReportsComponent implements OnInit {
+export class ReportsComponent implements OnInit, OnDestroy {
   droneReports: Report[] = []
   droneList: Drone[] = []
-  intervalPeriod: number = 120000
+  intervalPeriod: number = 10000
   parser = new Parser({ trim: true, explicitArray: false })
-  interval_: Observable<number>
+  intervalSubscription: Subscription
+  source: Observable<number>
 
   constructor(private droneservice: DroneService) {
-    this.interval_ = interval(this.intervalPeriod).pipe(
+    // Initialise the source observable with the interval
+    this.source = interval(this.intervalPeriod).pipe(
       startWith(0),
       switchMap(() => this.droneservice.getDrones())
     )
   }
 
+  // TODO: get interval and area data from api
   ngOnInit(): void {
-    this.interval_.subscribe((data) => {
+    // Subscribe to the source observable and parse the XML
+    this.intervalSubscription = this.source.subscribe((data) => {
       this.parser.parseString(data, (err, result: Report) => {
         this.droneReports.push(result)
         //console.log(this.droneReports)
@@ -35,11 +39,24 @@ export class ReportsComponent implements OnInit {
     })
   }
 
+  // Add drones to the list if they are in the NDZ
   getDroneList(report: Report) {
-    console.log(this.droneReports)
     report.report.capture.drone.forEach((drone) => {
-      this.droneList.push(drone)
+      this.inInNDZ(drone) ? this.droneList.push(drone) : null
     })
     console.log(this.droneList)
+  }
+
+  inInNDZ(drone: Drone) {
+    var d = Math.sqrt(
+      Math.pow(250000 - Number(drone.positionX), 2) +
+        Math.pow(250000 - Number(drone.positionY), 2)
+    )
+    return d < 100000 ? true : false
+  }
+
+  ngOnDestroy(): void {
+    // Unsubscribe from the source observable
+    this.intervalSubscription.unsubscribe()
   }
 }

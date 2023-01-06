@@ -4,5 +4,11 @@
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
+  },
+  "/pilots/*": {
+    "target": "https://assignments.reaktor.com/birdnest",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
   }
 }
