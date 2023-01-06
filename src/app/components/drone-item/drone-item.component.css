@@ -1,0 +1,11 @@
+.drone {
+  background: #f4f4f4;
+  margin: 5px;
+  padding: 10px 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.drone.inArea {
+  border-left: 10px solid darkred;
+}

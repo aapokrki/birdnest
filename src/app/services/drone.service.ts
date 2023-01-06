@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Drone } from '../Drone'
+import { Drone } from '../Report'
 import { Observable } from 'rxjs'
 import { XMLParser } from 'fast-xml-parser'
 
