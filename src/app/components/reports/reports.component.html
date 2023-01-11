@@ -1,5 +1,5 @@
 <p>drones work!</p>
 <div class="report in-area" *ngFor="let drone of droneList">
+  <app-pilot [droneSN]="drone.serialNumber"></app-pilot>
   <app-drone [drone]="drone"></app-drone>
-  <app-pilot [drone]="drone"></app-pilot>
 </div>

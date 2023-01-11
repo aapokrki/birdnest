@@ -27,6 +27,7 @@ export interface Drone {
   positionY: string
   positionX: string
   altitude: string
+  distance: number
 }
 
 export interface DeviceInformationClass {

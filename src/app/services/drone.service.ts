@@ -9,7 +9,9 @@ const httpOptions = {
     .set('Content-Type', 'text/xml')
     .append('Access-Control-Allow-Methods', 'GET')
     .append('Access-Control-Allow-Origin', '*')
+    .append('Retry-After', '120')
     .append('Access-Control-Allow-Headers', 'GET'),
+
   responseType: 'text' as 'json',
 }
 

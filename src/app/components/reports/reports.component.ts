@@ -1,5 +1,12 @@
 import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core'
-import { Subscription, Observable, interval, startWith, switchMap } from 'rxjs'
+import {
+  Subscription,
+  Observable,
+  interval,
+  startWith,
+  switchMap,
+  throwError,
+} from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { DroneService } from 'src/app/services/drone.service'
 import { Drone } from 'src/app/Report'
@@ -14,7 +21,7 @@ import { Report } from 'src/app/Report'
 export class ReportsComponent implements OnInit, OnDestroy {
   droneReports: Report[] = []
   droneList: Drone[] = []
-  intervalPeriod: number = 10000
+  intervalPeriod: number = 2000
   parser = new Parser({ trim: true, explicitArray: false })
   intervalSubscription: Subscription
   source: Observable<number>
@@ -23,7 +30,9 @@ export class ReportsComponent implements OnInit, OnDestroy {
     // Initialise the source observable with the interval
     this.source = interval(this.intervalPeriod).pipe(
       startWith(0),
-      switchMap(() => this.droneservice.getDrones())
+      switchMap(() => {
+        return this.droneservice.getDrones()
+      })
     )
   }
 
@@ -42,17 +51,44 @@ export class ReportsComponent implements OnInit, OnDestroy {
   // Add drones to the list if they are in the NDZ
   getDroneList(report: Report) {
     report.report.capture.drone.forEach((drone) => {
-      this.inInNDZ(drone) ? this.droneList.push(drone) : null
+      var dist = this.getDistanceFromNest(drone)
+      if (dist <= 100) {
+        // Add the distance from the nest to the drone object and update list
+        drone.distance = dist
+        this.updateDroneList(drone)
+      }
     })
-    console.log(this.droneList)
   }
 
-  inInNDZ(drone: Drone) {
-    var d = Math.sqrt(
+  // Add a drone to the list if it is not already there,
+  // otherwise update the position if it is closer than before
+  updateDroneList(drone: Drone) {
+    var d = this.droneList.find((d) => d.serialNumber === drone.serialNumber)
+    if (d === undefined) {
+      this.droneList.push(drone)
+    } else {
+      // Update the position of the drone in the list
+      if (d.distance > drone.distance) {
+        console.log(
+          `${drone.serialNumber.slice()} ${d.distance} -> ${drone.distance}`
+        )
+        d.positionX = drone.positionX
+        d.positionY = drone.positionY
+        d.distance = drone.distance
+
+        // Sort the list by distance from the nest
+        this.droneList.sort((a, b) => a.distance - b.distance)
+      }
+    }
+  }
+
+  getDistanceFromNest(drone: Drone): number {
+    var distance = Math.sqrt(
       Math.pow(250000 - Number(drone.positionX), 2) +
         Math.pow(250000 - Number(drone.positionY), 2)
     )
-    return d < 100000 ? true : false
+    //console.log(Math.round(this.distance / 1000))
+    return +(distance / 1000).toFixed(2)
   }
 
   ngOnDestroy(): void {

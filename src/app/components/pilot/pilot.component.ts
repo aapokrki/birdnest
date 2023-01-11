@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core'
+import { takeUntil } from 'rxjs'
 import { Pilot } from 'src/app/Pilot'
 import { Drone } from 'src/app/Report'
 import { PilotService } from 'src/app/services/pilot.service'
@@ -9,16 +10,21 @@ import { PilotService } from 'src/app/services/pilot.service'
   styleUrls: ['./pilot.component.css'],
 })
 export class PilotComponent {
-  @Input() drone: Drone
-  pilot: Pilot
+  @Input() droneSN: string
+  pilot: Pilot = {
+    pilotId: '',
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    createdDt: '',
+    email: '',
+  }
 
   constructor(private pilotService: PilotService) {}
 
   ngOnInit(): void {
-    console.log(this.drone.serialNumber)
-    this.pilotService.getPilot(this.drone.serialNumber).subscribe((data) => {
+    this.pilotService.getPilot(this.droneSN).subscribe((data) => {
       this.pilot = data
-      console.log(this.pilot.firstName)
     })
   }
 }
