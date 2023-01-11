@@ -23,8 +23,30 @@ export class PilotComponent {
   constructor(private pilotService: PilotService) {}
 
   ngOnInit(): void {
-    this.pilotService.getPilot(this.droneSN).subscribe((data) => {
-      this.pilot = data
-    })
+    this.callPilot()
+  }
+
+  callPilot() {
+    this.pilotService.getPilot(this.droneSN).subscribe(
+      (res) => {
+        this.pilot = res
+      },
+      (err) => {
+        console.log('HTTP Error', err)
+
+        if (err.status == 404) {
+          this.pilot = {
+            pilotId: 'null',
+            firstName: '',
+            lastName: '',
+            phoneNumber: '',
+            createdDt: '',
+            email: 'null',
+          }
+          return
+        }
+        this.callPilot()
+      }
+    )
   }
 }

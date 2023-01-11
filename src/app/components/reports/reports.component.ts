@@ -22,6 +22,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   droneReports: Report[] = []
   droneList: Drone[] = []
   intervalPeriod: number = 2000
+  radiusNDZ: number = 100
   parser = new Parser({ trim: true, explicitArray: false })
   intervalSubscription: Subscription
   source: Observable<number>
@@ -39,20 +40,38 @@ export class ReportsComponent implements OnInit, OnDestroy {
   // TODO: get interval and area data from api
   ngOnInit(): void {
     // Subscribe to the source observable and parse the XML
-    this.intervalSubscription = this.source.subscribe((data) => {
-      this.parser.parseString(data, (err, result: Report) => {
-        this.droneReports.push(result)
-        //console.log(this.droneReports)
-        this.getDroneList(result)
-      })
-    })
+    this.startApiCalls()
+  }
+
+  startApiCalls() {
+    this.intervalSubscription = this.source.subscribe(
+      (res) => {
+        console.log('HTTP response')
+        this.parser.parseString(res, (err, result: Report) => {
+          this.droneReports.push(result)
+          //console.log(this.droneReports)
+          this.addToDroneList(result)
+        })
+      },
+      (err) => {
+        console.log('HTTP Error', err)
+        this.intervalSubscription.unsubscribe()
+
+        setTimeout(() => {
+          this.startApiCalls()
+        }, 60000)
+      },
+      () => {
+        console.log('HTTP request completed.')
+      }
+    )
   }
 
   // Add drones to the list if they are in the NDZ
-  getDroneList(report: Report) {
+  addToDroneList(report: Report) {
     report.report.capture.drone.forEach((drone) => {
       var dist = this.getDistanceFromNest(drone)
-      if (dist <= 100) {
+      if (dist <= this.radiusNDZ) {
         // Add the distance from the nest to the drone object and update list
         drone.distance = dist
         this.updateDroneList(drone)
