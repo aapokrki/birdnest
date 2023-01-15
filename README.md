@@ -1,27 +1,27 @@
 # Birdnest
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.
+[Link to the web application](https://reaktor-birdnest-aapokrki.netlify.app/)
 
-## Development server
+## Objectives
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Most of the objectives have been implemented:
 
-## Code scaffolding
+- Persist the pilot information for **10 minutes** since their drone was last seen by the equipment
+- Display the closest confirmed distance to the nest
+- Contain the pilot name, email address and phone number
+- Not require the user to manually refresh the view to see up-to-date information
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+What wasn't implemented:
 
-## Build
+- **Immediately** show the information from the last 10 minutes to anyone opening the application
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+This would require a backend and a separate database to hold pilot and drone data from where the past 10 minutes can be called immediately. The backend would continuously gather data and let go of it after 10 minutes.
+The clientside app would then get drone and pilot data from the backend database. The implementation of the backend would be quite simple if I had the time to do so.
 
-## Running unit tests
+I would have implemented this feature using the MEAN stack, since I have knowledge of the MERN stack.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+This current implementation does it all in Angular and is hosted on Netlify.
 
-## Running end-to-end tests
+## Thoughts
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+In addition to being a pre-assignment, I took this project as a learning experience to try out Angular. All-in-all I think that I've learned a great deal from this project and I'm happy I did it even though it's missing a feature :)

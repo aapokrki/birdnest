@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { takeUntil } from 'rxjs'
 import { Pilot } from 'src/app/Pilot'
-import { Drone } from 'src/app/Report'
 import { PilotService } from 'src/app/services/pilot.service'
 
 @Component({
@@ -34,6 +32,7 @@ export class PilotComponent {
       (err) => {
         console.log('HTTP Error', err)
 
+        // Default values for pilot if not found
         if (err.status == 404) {
           this.pilot = {
             pilotId: '',

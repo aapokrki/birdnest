@@ -8,7 +8,6 @@ const httpOptions = {
     .set('Content-Type', 'application/json')
     .append('Accept', 'application/json')
     .append('Access-Control-Allow-Headers', 'Content-Type'),
-  //responseType: 'text' as 'json',
 }
 
 @Injectable({

@@ -1,18 +1,9 @@
-import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core'
-import {
-  Subscription,
-  Observable,
-  interval,
-  startWith,
-  switchMap,
-  throwError,
-} from 'rxjs'
-import { HttpClient } from '@angular/common/http'
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Subscription, Observable, interval, startWith, switchMap } from 'rxjs'
 import { DroneService } from 'src/app/services/drone.service'
 import { Drone } from 'src/app/Report'
 import { Parser } from 'xml2js'
 import { Report } from 'src/app/Report'
-import { DatePipe, formatDate } from '@angular/common'
 
 @Component({
   selector: 'app-drones',

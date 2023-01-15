@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Drone } from '../Report'
+import { Drone, Report } from '../Report'
 import { Observable } from 'rxjs'
 import { XMLParser } from 'fast-xml-parser'
 
@@ -19,11 +19,8 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class DroneService {
-  apiUrl: string = 'https://assignments.reaktor.com/birdnest/drones'
-
   constructor(private http: HttpClient) {}
-
   getDrones(): Observable<any> {
-    return this.http.get('/drones', httpOptions)
+    return this.http.get<Report>('/drones', httpOptions)
   }
 }
