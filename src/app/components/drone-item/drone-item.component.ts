@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common'
 import { Component, Input } from '@angular/core'
 import { Drone } from 'src/app/Report'
 @Component({
@@ -9,4 +10,8 @@ export class DroneItemComponent {
   @Input() drone: Drone
 
   constructor() {}
+
+  getDateShortFormat() {
+    return formatDate(this.drone.date, 'HH:mm:ss (dd.MM.yyyy)', 'en-US')
+  }
 }

@@ -15,8 +15,6 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class PilotService {
-  apiUrl: string = 'https://assignments.reaktor.com/birdnest/pilots'
-
   constructor(private http: HttpClient) {}
 
   getPilot(serialNumber: string): Observable<any> {

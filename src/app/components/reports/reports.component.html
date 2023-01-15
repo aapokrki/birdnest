@@ -1,4 +1,7 @@
-<p>drones work!</p>
+<p>
+  This application tracks ongoing drone activity in the area and displays any
+  drones and flyers that violate the NO-DRONE-ZONE.
+</p>
 <div class="report in-area" *ngFor="let drone of droneList">
   <app-pilot [droneSN]="drone.serialNumber"></app-pilot>
   <app-drone [drone]="drone"></app-drone>

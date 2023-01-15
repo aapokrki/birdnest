@@ -36,12 +36,12 @@ export class PilotComponent {
 
         if (err.status == 404) {
           this.pilot = {
-            pilotId: 'null',
+            pilotId: '',
             firstName: '',
             lastName: '',
             phoneNumber: '',
             createdDt: '',
-            email: 'null',
+            email: '',
           }
           return
         }

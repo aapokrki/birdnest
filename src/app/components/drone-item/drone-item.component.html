@@ -1,4 +1,11 @@
 <div>
-  <p>{{ drone.serialNumber }}</p>
-  <p>{{ drone.distance }} meters from the nest</p>
+  <div>
+    <h3>{{ drone.serialNumber }}</h3>
+    <h4>Closest distance:</h4>
+    <span> {{ drone.distance }} meters</span>
+  </div>
+  <div>
+    <h4>Violation timestamp:</h4>
+    <span> {{ getDateShortFormat() }}</span>
+  </div>
 </div>
