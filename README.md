@@ -4,6 +4,8 @@
 
 ## Objectives
 
+[Link to the assignment](https://assignments.reaktor.com/birdnest)
+
 Most of the objectives have been implemented:
 
 - Persist the pilot information for **10 minutes** since their drone was last seen by the equipment
